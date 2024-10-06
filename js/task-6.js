@@ -10,26 +10,34 @@ const buttonDestroy = document.querySelector('button[data-destroy]');
 const boxes = document.querySelector('#boxes');
 
 buttonCreate.addEventListener('click', createMarkup);
+
 function createMarkup() {
-  if (inputNumber.value < 1 || inputNumber > 100) {
+  const amount = inputNumber.value;
+  if (amount < 1 || amount > 100) {
+    console.log('error');
     return;
   }
-  createBoxes(inputNumber.value);
+  createBoxes(amount);
 }
 
 function createBoxes(amount) {
   boxes.innerHTML = '';
+  const boxesItems = [];
   let boxSize = 30;
   for (let i = 0; i < amount; i++) {
     const newBox = document.createElement('div');
     newBox.style.backgroundColor = getRandomHexColor();
     newBox.style.width = `${boxSize}px`;
     newBox.style.height = `${boxSize}px`;
-    boxes.append(newBox);
+    boxesItems.push(newBox);
     boxSize += 10;
+    inputNumber.value = '';
   }
+  boxes.append(...boxesItems);
 }
-buttonDestroy.addEventListener('click', () => {
-  inputNumber.value = '';
+
+buttonDestroy.addEventListener('click', destroyBoxes);
+function destroyBoxes() {
   boxes.innerHTML = '';
-});
+  inputNumber.value = '';
+}
